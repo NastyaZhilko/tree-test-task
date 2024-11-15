@@ -1,0 +1,31 @@
+.itemContainer {
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  position: relative;
+  padding-left: 28px;
+  &:hover {
+    background-color: #d4d4d6;
+  }
+}
+
+.arrowIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.actionsButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.addIcon {
+  color: blue;
+}
+
+.deleteIcon {
+  color: red;
+}

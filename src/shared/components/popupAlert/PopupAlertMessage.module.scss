@@ -1,0 +1,25 @@
+.header {
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.text {
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.popupAlert {
+  align-items: start;
+  border-radius: 16px;
+  box-shadow: none;
+  padding: 16px;
+
+  &.error {
+    border: 2px solid #FECDD2;
+  }
+
+  &.success {
+    border: 2px solid #CCEDC1;
+  }
+}

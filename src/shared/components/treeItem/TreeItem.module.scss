@@ -4,15 +4,34 @@
   min-height: 24px;
   position: relative;
   padding-left: 28px;
+}
+
+.nodeName {
+  transition: all 0.3s ease;
   &:hover {
-    background-color: #d4d4d6;
+    background-color: #ece9e9;
+    cursor: pointer;
   }
+}
+
+.icon {
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .arrowIcon {
   position: absolute;
   top: 0;
   left: 0;
+  color: #8e8c8c;
+
+  &:hover {
+    color: #000000;
+  }
+
+  &.showChildren {
+    transform: rotate(90deg);
+  }
 }
 
 .actionsButton {
@@ -20,12 +39,24 @@
   align-items: center;
   gap: 8px;
   margin-left: 8px;
+
+  &:hover {
+    color: #000000;
+  }
 }
 
-.addIcon {
-  color: blue;
+.addIcon, .editIcon {
+  color: rgb(0, 0, 225, .7);
+
+  &:hover {
+    color: rgb(0, 0, 225, 1);
+  }
 }
 
 .deleteIcon {
-  color: red;
+  color: rgb(225, 0, 0, .7);
+
+  &:hover {
+    color: rgb(225, 0, 0, 1);
+  }
 }

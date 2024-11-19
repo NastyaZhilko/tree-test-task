@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {getTree, treeNodeCreate, treeNodeDelete, treeNodeUpdate} from "../../../api/rest/tree";
 import {TreeNode} from "../treeNode/TreeNode";
 import {AxiosError} from "axios";
@@ -7,15 +7,7 @@ import {IoIosSave} from "react-icons/io";
 import {ErrorResponse, TreeNodeType} from "../../types";
 
 export const Tree = () => {
-    useEffect(() => {
-        getTreeData()
-    }, []);
-
-    const [tree, setTree] = useState<TreeNodeType | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [selectedNode, setSelectedNode] = useState<TreeNodeType | null>(null);
-
-    const getTreeData = async () => {
+    const getTreeData = useCallback(async () => {
         setIsLoading(true);
         try {
             const data = await getTree()
@@ -28,7 +20,15 @@ export const Tree = () => {
         } finally {
             setIsLoading(false);
         }
-    }
+    }, [])
+    
+    useEffect(() => {
+        getTreeData()
+    }, [getTreeData]);
+
+    const [tree, setTree] = useState<TreeNodeType | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [selectedNode, setSelectedNode] = useState<TreeNodeType | null>(null);
 
     const addNode = async (nodeName: string) => {
         setIsLoading(true);

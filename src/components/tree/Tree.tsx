@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {getTree, treeNodeCreate, treeNodeDelete, treeNodeUpdate} from "../../../api/rest/tree";
-import {TreeNode} from "../treeNode/TreeNode";
+import {getTree, treeNodeCreate, treeNodeDelete, treeNodeUpdate} from "../../api/rest/tree";
+import {TreeNode} from "./treeNode/TreeNode";
 import {AxiosError} from "axios";
-import {alert} from "../popupAlert/PopupAlert";
+import {alert} from "../../shared/components/popupAlert/PopupAlert";
 import {IoIosSave} from "react-icons/io";
-import {ErrorResponse, TreeNodeType} from "../../types";
+import {ErrorResponse, TreeNodeType} from "../../shared/types";
 
 export const Tree = () => {
     const getTreeData = useCallback(async () => {

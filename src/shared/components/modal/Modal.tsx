@@ -1,5 +1,6 @@
 import style from './Modal.module.scss'
 import {ReactNode} from "react";
+import classNames from "classnames";
 
 
 interface ModalType {
@@ -10,11 +11,9 @@ interface ModalType {
 
 
 const Modal = ({modal, setModal, children}: ModalType) => {
-    const finalModalClassName = `${style.modal} ${modal ? style.active : ""}`;
-    const finalModalContentClassName = `${style.modal_content} ${modal ? style.active : ""}`;
     return (
-        <div className={finalModalClassName} onClick={ () => setModal(false)}>
-            <div className={finalModalContentClassName} onClick={e =>  e.stopPropagation()}>
+        <div className={classNames(style.modal, {[style.active]: modal})} onClick={ () => setModal(false)}>
+            <div className={classNames(style.modalContent, {[style.active]: modal})} onClick={e =>  e.stopPropagation()}>
                 {children}
             </div>
         </div>

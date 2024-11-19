@@ -1,11 +1,14 @@
 import React, {ChangeEvent, useState} from "react";
 import {TreeItem} from "../treeItem/TreeItem";
-import Modal from "../modal/Modal";
-import {Loader} from "../loader/Loader";
+import Modal from "../../../shared/components/modal/Modal";
+import {Loader} from "../../../shared/components/loader/Loader";
 import styles from "../treeItem/TreeItem.module.scss";
-import {Input} from "../input/Input";
-import {Button} from "../button/Button";
-import {TreeNodeType} from "../../types";
+import {Input} from "../../../shared/components/input/Input";
+import {Button} from "../../../shared/components/button/Button";
+import {TreeNodeType} from "../../../shared/types";
+import {AddNodeModal} from "../../popup/AddNodeModal";
+import {EditNodeModal} from "../../popup/EditNodeModal";
+import {DeleteNodeModal} from "../../popup/DeleteNodeModal";
 
 type TreeNodeTypeProps = {
     node: TreeNodeType
@@ -83,7 +86,6 @@ export const TreeNode = ({
                   isSelected={selectedNode?.id === id}
                   onSelect={setSelectedNode}
         />
-
         {showChildren && children && <div style={{marginLeft: '24px'}}>
             {children.map((child: TreeNodeType) =>
                 <TreeNode
@@ -98,38 +100,33 @@ export const TreeNode = ({
                 />)}
         </div>}
         {addNodeModalIsOpen &&
-            (<Modal modal={addNodeModalIsOpen} setModal={() => setAddNodeModalIsOpen(false)}>
-                    {isLoading ? <Loader/> : <div className={styles.form}>
-                        <h2>Add</h2>
-                        <Input placeholder='Node Name' value={nodeName} onChange={handleChangeName} id='node-name'/>
-                        <div className={styles.buttons}>
-                            <Button onClick={() => setAddNodeModalIsOpen(false)} name='Cancel' variant='red'/>
-                            <Button onClick={handleAddNodeButtonClick} name='Add' variant='blue'/>
-                        </div>
-                    </div>}
-                </Modal>
-            )}
-        {updateNodeModalIsOpen && (
-            <Modal modal={updateNodeModalIsOpen} setModal={() => setUpdateNodeModalIsOpen(false)}>
-                {isLoading ? <Loader/> : <div>
-                    <h2>Rename</h2>
-                    <Input placeholder='New node name' value={newNodeName} onChange={handleChangeNewName}
-                           id='new-node-name'/>
-                    <div className={styles.buttons}>
-                        <Button onClick={() => setUpdateNodeModalIsOpen(false)} name='Cancel' variant='red'/>
-                        <Button onClick={handleEditNodeButtonClick} name='Rename' variant='blue'/>
-                    </div>
-                </div>}
-            </Modal>
-        )}
-        {deleteNodeModalIsOpen && <Modal modal={deleteNodeModalIsOpen} setModal={() => setDeleteNodeModalIsOpen(false)}>
-            {isLoading ? <Loader/> : <div className={styles.form}>
-                <h2>Do you want to delete {name}</h2>
-                <div className={styles.buttons}>
-                    <Button onClick={() => setDeleteNodeModalIsOpen(false)} name='Cancel' variant='red'/>
-                    <Button onClick={handleDeleteNodeButtonClick} name='Delete' variant='blue'/>
-                </div>
-            </div>}
-        </Modal>}
+            <AddNodeModal
+                isOpen={addNodeModalIsOpen}
+                setModal={setAddNodeModalIsOpen}
+                inputValue={nodeName}
+                onChangeInputValue={handleChangeName}
+                onAddButtonClick={handleAddNodeButtonClick}
+                isLoading={isLoading}
+            />
+
+        }
+        {updateNodeModalIsOpen &&
+            <EditNodeModal
+                isOpen={updateNodeModalIsOpen}
+                setModal={setUpdateNodeModalIsOpen}
+                inputValue={newNodeName}
+                onChangeInputValue={handleChangeNewName}
+                onEditButtonClick={handleEditNodeButtonClick}
+                isLoading={isLoading}
+            />
+        }
+        {deleteNodeModalIsOpen &&
+            <DeleteNodeModal isOpen={deleteNodeModalIsOpen}
+                             setModal={setDeleteNodeModalIsOpen}
+                             nodeName={name}
+                             onDeleteButtonClick={handleDeleteNodeButtonClick}
+                             isLoading={isLoading}
+            />
+        }
     </div>
 }

@@ -13,4 +13,8 @@
   color: rgba(0, 0, 0, 0.48);
   margin-bottom: 16px;
   padding-left: 16px;
+
+  &.fullWidth {
+    width: 100%;
+  }
 }

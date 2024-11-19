@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Tree} from "./shared/components/tree/Tree";
+import {Tree} from "./components/tree/Tree";
 
 function App() {
     return <Tree/>

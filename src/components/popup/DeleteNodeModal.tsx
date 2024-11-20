@@ -1,6 +1,6 @@
 import Modal from "../../shared/components/modal/Modal";
 import {Loader} from "../../shared/components/loader/Loader";
-import styles from "../tree/treeItem/TreeItem.module.scss";
+import styles from './Popup.module.scss'
 import {Button} from "../../shared/components/button/Button";
 import React from "react";
 
@@ -22,7 +22,7 @@ export const DeleteNodeModal = ({
     return (
         <Modal modal={isOpen} setModal={() => setModal(false)}>
             {isLoading ? <Loader/> : <div className={styles.form}>
-                <h2>Do you want to delete {nodeName}</h2>
+                <div className={styles.title}>Do you want to delete <span className={styles.nodeName}>"{nodeName}"</span></div>
                 <div className={styles.buttons}>
                     <Button onClick={() => setModal(false)} name='Cancel' variant='red'/>
                     <Button onClick={onDeleteButtonClick} name='Delete' variant='blue'/>

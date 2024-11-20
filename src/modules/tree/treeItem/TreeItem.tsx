@@ -4,7 +4,7 @@ import {IoMdArrowDropright} from "react-icons/io";
 import {IoIosAddCircle} from "react-icons/io";
 import {MdDriveFileRenameOutline} from "react-icons/md";
 import {BiSolidTrash} from "react-icons/bi";
-import {ROOT_TREE_NAME} from "../../../api/client";
+import {ROOT_TREE_NAME} from "../../../shared/api/api";
 import {TreeNodeType} from "../../../shared/types";
 import classNames from "classnames";
 

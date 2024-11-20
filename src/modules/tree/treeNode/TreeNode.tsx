@@ -1,31 +1,21 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import {TreeItem} from "../treeItem/TreeItem";
-import Modal from "../../../shared/components/modal/Modal";
-import {Loader} from "../../../shared/components/loader/Loader";
-import styles from "../treeItem/TreeItem.module.scss";
-import {Input} from "../../../shared/components/input/Input";
-import {Button} from "../../../shared/components/button/Button";
 import {TreeNodeType} from "../../../shared/types";
-import {AddNodeModal} from "../../popup/AddNodeModal";
-import {EditNodeModal} from "../../popup/EditNodeModal";
-import {DeleteNodeModal} from "../../popup/DeleteNodeModal";
+import {AddNodeModal} from "../../../components/popup/AddNodeModal";
+import {EditNodeModal} from "../../../components/popup/EditNodeModal";
+import {DeleteNodeModal} from "../../../components/popup/DeleteNodeModal";
+import {useCreateNode} from "../../../shared/hooks/use-create-node";
+import {useDeleteNode} from "../../../shared/hooks/use-delete-node";
+import {useUpdateNode} from "../../../shared/hooks/use-update-node";
 
 type TreeNodeTypeProps = {
     node: TreeNodeType
-    isLoading: boolean
-    addNode: (nodeName: string) => void
-    editNode: (newNodeName: string) => void
-    deleteNode: () => void
     setSelectedNode: (node: TreeNodeType) => void;
     selectedNode: TreeNodeType | null;
 }
 
 export const TreeNode = ({
                              node,
-                             isLoading,
-                             addNode,
-                             editNode,
-                             deleteNode,
                              setSelectedNode,
                              selectedNode,
                          }: TreeNodeTypeProps) => {
@@ -52,29 +42,32 @@ export const TreeNode = ({
         setNewNodeName(e.target.value);
     }
 
+    const {onCreateNode, isCreateNodePending} = useCreateNode(nodeName, selectedNode?.id)
+    const {handleDeleteNode, isDeleteNodePending} = useDeleteNode(selectedNode?.id)
+    const {handleUpdate, isUpdateNodePending} = useUpdateNode(newNodeName, selectedNode?.id)
+
     const handleShowChildren = () => {
         setShowChildren((prev) => !prev);
     };
 
-    const handleAddNodeButtonClick = () => {
-        addNode(nodeName);
+    const handleAddNode = (e: FormEvent<HTMLFormElement>) => {
+        onCreateNode(e);
         setNodeName('')
         setAddNodeModalIsOpen(false)
     }
 
-    const handleEditNodeButtonClick = () => {
+    const handleEditNodeButtonClick = (e: FormEvent<HTMLFormElement>) => {
         if (newNodeName) {
-            editNode(newNodeName)
+            handleUpdate(e)
         }
         setNewNodeName('')
         setUpdateNodeModalIsOpen(false)
     }
 
     const handleDeleteNodeButtonClick = () => {
-        deleteNode()
+        handleDeleteNode();
         setDeleteNodeModalIsOpen(false)
     }
-
     return <div>
         <TreeItem node={node}
                   showChildren={showChildren}
@@ -91,10 +84,6 @@ export const TreeNode = ({
                 <TreeNode
                     key={child.id}
                     node={child}
-                    isLoading={isLoading}
-                    addNode={addNode}
-                    editNode={editNode}
-                    deleteNode={deleteNode}
                     setSelectedNode={setSelectedNode}
                     selectedNode={selectedNode}
                 />)}
@@ -105,8 +94,8 @@ export const TreeNode = ({
                 setModal={setAddNodeModalIsOpen}
                 inputValue={nodeName}
                 onChangeInputValue={handleChangeName}
-                onAddButtonClick={handleAddNodeButtonClick}
-                isLoading={isLoading}
+                onAddButtonClick={handleAddNode}
+                isLoading={isCreateNodePending}
             />
 
         }
@@ -117,7 +106,7 @@ export const TreeNode = ({
                 inputValue={newNodeName}
                 onChangeInputValue={handleChangeNewName}
                 onEditButtonClick={handleEditNodeButtonClick}
-                isLoading={isLoading}
+                isLoading={isUpdateNodePending}
             />
         }
         {deleteNodeModalIsOpen &&
@@ -125,7 +114,7 @@ export const TreeNode = ({
                              setModal={setDeleteNodeModalIsOpen}
                              nodeName={name}
                              onDeleteButtonClick={handleDeleteNodeButtonClick}
-                             isLoading={isLoading}
+                             isLoading={isDeleteNodePending}
             />
         }
     </div>
